@@ -8,11 +8,13 @@ public class Cpsd extends Settings {
         super("Cpsd");
     }
 	public void onToggle(boolean state){
-	if (state)
+	if (state){
 		HL32K.cps--;
-	HL32K.saveInformation();
-	if (!state)
+		HL32K.saveInformation();
+	}
+	if (!state){
 		HL32K.cps--;
-	HL32K.saveInformation();
+		HL32K.saveInformation();
+	}
 	}
 }

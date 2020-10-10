@@ -12,6 +12,9 @@ public class NextColor extends Settings {
 		if (HL32K.color >= 26) {
 				HL32K.color = 0;
 				HL32K.saveInformation();
+			}if (HL32K.color < 0) {
+				HL32K.color = 25;
+				HL32K.saveInformation();
 			} else {
 				HL32K.color += 1;
 				HL32K.saveInformation();
@@ -20,6 +23,9 @@ public class NextColor extends Settings {
 	if (!state){
 		if (HL32K.color >= 26) {
 				HL32K.color = 0;
+				HL32K.saveInformation();
+			}if (HL32K.color < 0) {
+				HL32K.color = 25;
 				HL32K.saveInformation();
 			} else {
 				HL32K.color += 1;

@@ -24,10 +24,12 @@ public class UIManager {
     }
 
     public void Draw() {
+		if(HL32K.allowHUD){
         multiColor = MultiColor.getRainbow();
         uiPosition.positionText(position_on_screen, "Hyper Lethal Auto 32K", 2, 2, scaleFactor);
         uiPosition.GLScale(scaleFactor);
         minecraft.fontRenderer.drawStringWithShadow("Hyper Lethal Auto 32K", uiPosition.x_position, uiPosition.y_position, multiColor.getRGB());
         uiPosition.GLScale(1 / scaleFactor);
+		}
     }
 }

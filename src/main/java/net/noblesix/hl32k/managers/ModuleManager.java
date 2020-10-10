@@ -1,6 +1,7 @@
 package net.noblesix.hl32k.managers;
 
 import net.noblesix.hl32k.modules.*;
+import net.noblesix.hl32k.hyperlethal32k.Auto32kBypass;
 import net.noblesix.hl32k.modules.api.Module;
 import net.minecraft.client.Minecraft;
 
@@ -10,15 +11,15 @@ public class ModuleManager {
     public ArrayList<Module> moduleList = new ArrayList<Module>();
 
     public ModuleManager() {
-        moduleList.add(new AutoClicker());
 		moduleList.add(new AutoTotem());
 		moduleList.add(new Fullbright());
 		moduleList.add(new DoubleTotem());
 		moduleList.add(new InventoryWalk());
 		moduleList.add(new NoFOV());
         moduleList.add(new Sprint());
-		moduleList.add(new ArmorHUD());
+		moduleList.add(new DisableHUD());
         moduleList.add(new Rainbow());
+		moduleList.add(new Auto32kBypass());
 		moduleList.add(new ClickGUI());
     }
 

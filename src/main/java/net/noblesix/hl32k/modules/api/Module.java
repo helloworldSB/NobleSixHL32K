@@ -27,11 +27,13 @@ public class Module {
     }
 
     public void onGui(int offset) {
+		if(HL32K.allowHUD){
         multiColor = MultiColor.getRainbow();
         HL32K.client.uiManager.uiPosition.positionText(HL32K.client.uiManager.position_on_screen, getModuleName(), 2, 8, 1.2f);
         HL32K.client.uiManager.uiPosition.GLScale(scaleFactor);
         minecraft.fontRenderer.drawStringWithShadow(getModuleName(), HL32K.client.uiManager.uiPosition.x_position, (HL32K.client.uiManager.uiPosition.y_position + 10) + (offset * 10), multiColor.getRGB());
         HL32K.client.uiManager.uiPosition.GLScale( 1 / scaleFactor);
+		}
     }
 
     public void onToggle(boolean state){}

@@ -9,12 +9,12 @@ public class ToggleChat extends Settings {
     }
 	public void onToggle(boolean state){
 	if (state){
-	HL32K.chatdisable = false;
-	HL32K.saveInformation();
+		HL32K.chatdisable = !HL32K.chatdisable;
+		HL32K.saveInformation();
 	}
 	if (!state){
-	HL32K.chatdisable = true;
-	HL32K.saveInformation();
+		HL32K.chatdisable = !HL32K.chatdisable;
+		HL32K.saveInformation();
 	}
 	}
 }

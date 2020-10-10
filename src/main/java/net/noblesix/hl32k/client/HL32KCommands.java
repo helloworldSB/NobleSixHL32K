@@ -13,7 +13,7 @@ public class HL32KCommands {
     public CommandManager commandManager;
 
     public HL32KCommands() {
-        commandManager = new CommandManager(".", new Style().setColor(TextFormatting.GRAY));
+        commandManager = new CommandManager(",", new Style().setColor(TextFormatting.GRAY));
     }
 
     @SubscribeEvent

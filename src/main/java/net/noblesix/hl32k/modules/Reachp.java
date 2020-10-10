@@ -8,11 +8,13 @@ public class Reachp extends Settings {
         super("Reachp");
     }
 	public void onToggle(boolean state){
-	if (state)
-		HL32K.reach += 0.01F;
-	HL32K.saveInformation();
-	if (!state)
-		HL32K.reach += 0.01F;
-	HL32K.saveInformation();
+	if (state){
+		HL32K.reach += 0.1F;
+		HL32K.saveInformation();
+	}
+	if (!state){
+		HL32K.reach += 0.1F;
+		HL32K.saveInformation();
+	}
 	}
 }

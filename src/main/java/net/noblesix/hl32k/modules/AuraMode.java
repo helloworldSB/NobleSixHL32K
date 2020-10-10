@@ -8,11 +8,13 @@ public class AuraMode extends Settings {
         super("AuraMode");
     }
 	public void onToggle(boolean state){
-	if (state)
-	HL32K.auramode = !HL32K.auramode;
-	HL32K.saveInformation();
-	if (!state)
-	HL32K.auramode = !HL32K.auramode;
-	HL32K.saveInformation();
+	if (state){
+		HL32K.auramode = !HL32K.auramode;
+		HL32K.saveInformation();
+	}
+	if (!state){
+		HL32K.auramode = !HL32K.auramode;
+		HL32K.saveInformation();
+	}
 	}
 }

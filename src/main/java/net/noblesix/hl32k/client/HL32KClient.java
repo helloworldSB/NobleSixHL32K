@@ -14,7 +14,7 @@ import org.lwjgl.opengl.Display;
 
 public class HL32KClient {
     public final String CLIENT_NAME = "HL32K";
-    public final static double CLIENT_VERSION = 1.2;
+    public final static double CLIENT_VERSION = 6.0;
 
     public ModuleManager moduleManager;
 	public SettingsManager settingsManager;

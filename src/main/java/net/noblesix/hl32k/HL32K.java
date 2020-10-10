@@ -5,6 +5,9 @@ import net.noblesix.hl32k.managers.GUIManager;
 import net.noblesix.hl32k.client.HL32KClient;
 import net.noblesix.hl32k.client.HL32KCommands;
 import net.noblesix.hl32k.hyperlethal32k.Auto32kModule;
+import net.noblesix.hl32k.hyperlethal32k.Auto32kModuleBad;
+import net.noblesix.hl32k.hyperlethal32k.Auto32kModuleWWE;
+import net.noblesix.hl32k.hyperlethal32k.Auto32kModuleGOD;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -36,7 +39,7 @@ import java.io.InputStreamReader;
 
 @Mod(
         modid = "hyperlethal32k",
-        version = "1.1",
+        version = "6.0",
         acceptedMinecraftVersions = "[1.12.2]"
 )
 public class HL32K
@@ -53,6 +56,13 @@ public class HL32K
     }
 	public static Minecraft mc = Minecraft.getMinecraft();
 
+	public static int fontcolor;
+	public static boolean allowHUD = true;
+	public static int disdelay = 50;
+	public static int slot = 1;
+	public static boolean is32kEnabled;
+	public static boolean wweis32kEnabled;
+	public static int a32kcore = 0;
 	public static boolean auramode;
 	public static int cps = 13;
 	public static boolean isKillauraOptionEnabled = true;
@@ -67,13 +77,13 @@ public class HL32K
 	public static KeyBinding auto32kCpsIncrementKeybind= new KeyBinding("cps +", Keyboard.KEY_NONE, "Auto 32K Settings");
 	public static KeyBinding auto32kCpsdecrementKeybind= new KeyBinding("cps -", Keyboard.KEY_NONE, "Auto 32K Settings");
 	public static KeyBinding changecolor= new KeyBinding("Change HUD",43,"Auto 32K Settings");
-	public static KeyBinding auto32kToggleKillauraKeybind= new KeyBinding("Kil Aura", Keyboard.KEY_NONE, "Auto 32K Settings");
+	public static KeyBinding auto32kToggleKillauraKeybind= new KeyBinding("Kill Aura", Keyboard.KEY_NONE, "Auto 32K Settings");
 	public static KeyBinding reachplus= new KeyBinding("Reach +",Keyboard.KEY_NONE, "Auto 32K Settings");
 	public static KeyBinding reachminus= new KeyBinding("Reach -",Keyboard.KEY_NONE,"Auto 32K Settings");
 	public static KeyBinding auraswitch= new KeyBinding("Switch Aura Mode",43,"Auto 32K Settings");
 	public static KeyBinding cptplus= new KeyBinding("cpt +",0,"Auto 32K Settings");
 	public static KeyBinding cptminus= new KeyBinding("cpt -",0,"Auto 32K Settings");
-	public static KeyBinding switch32k= new KeyBinding("Auto 32k Mode",0,"Auto 32K Settings");
+	public static KeyBinding switch32k= new KeyBinding("Hopper / Dispenser",0,"Auto 32K Settings");
 	public static KeyBinding switchmad= new KeyBinding("Mad Mode",0,"Auto 32K Settings");
 	public static KeyBinding switchplace= new KeyBinding("PlaceMode",0,"Auto 32K Settings");
 	public static float reach = 8.00F;
@@ -110,15 +120,20 @@ public class HL32K
 		loadInformation();
 		getFriends();
 		MinecraftForge.EVENT_BUS.register(new Auto32kModule());
+		MinecraftForge.EVENT_BUS.register(new Auto32kModuleBad());
+		MinecraftForge.EVENT_BUS.register(new Auto32kModuleWWE());
+		MinecraftForge.EVENT_BUS.register(new Auto32kModuleGOD());
 	}
 	public static void saveInformation() {
 		try {
-			File file = new File("./", "Auto 32k.txt");
+			File file = new File("./", "Auto 32k Config" + String.valueOf(slot) +".txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
 			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
 			bufferedWriter.write("cps:" + cps + "\r\n");
+			bufferedWriter.write("a32kcore:" + a32kcore + "\r\n");
+			bufferedWriter.write("disdelay:" + disdelay + "\r\n");
 			bufferedWriter.write("killaura:" + isKillauraOptionEnabled + "\r\n");
 			bufferedWriter.write("font:" + font + "\r\n");
 			bufferedWriter.write("color:" + color + "\r\n");
@@ -135,9 +150,9 @@ public class HL32K
 		}
 	}
 
-	public void loadInformation() {
+	public static void loadInformation() {
 		try {
-			File file = new File("./", "Auto 32k.txt");
+			File file = new File("./", "Auto 32k Config" + String.valueOf(slot) +".txt");
 			if (!file.exists()) {
 				saveInformation();
 				return;
@@ -154,8 +169,12 @@ public class HL32K
 				String value = line.split(":")[1];
 				if(key.equalsIgnoreCase("cps")) {
 					cps = Integer.parseInt(value);
+				}else if(key.equalsIgnoreCase("disdelay")) {
+					disdelay = Integer.parseInt(value);
 				}else if(key.equalsIgnoreCase("killaura")) {
 					isKillauraOptionEnabled = Boolean.parseBoolean(value);
+				}else if(key.equalsIgnoreCase("a32kcore")) {
+					a32kcore = Integer.parseInt(value);
 				}else if(key.equalsIgnoreCase("font")) {
 					font = value;
 				}else if(key.equalsIgnoreCase("color")){

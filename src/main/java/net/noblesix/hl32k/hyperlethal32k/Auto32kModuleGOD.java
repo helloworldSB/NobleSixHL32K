@@ -73,7 +73,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 import static net.noblesix.hl32k.HL32K.mc;
 
-public class Auto32kModule {
+public class Auto32kModuleGOD {
 
 	public BlockPos placedHopperPos;
 	public static boolean shouldKillaura = false;
@@ -85,6 +85,7 @@ public class Auto32kModule {
 	DecimalFormat fnum = new DecimalFormat("#.## ");
 	private static final DecimalFormat df = new DecimalFormat("#.#");
 	// dispenser
+	private boolean multi = true;
 	private int stage = 0;
 	private BlockPos placeTarget;
 	private int obiSlot;
@@ -104,7 +105,7 @@ public class Auto32kModule {
 
 	@SubscribeEvent
 	public void onRenderGui(RenderGameOverlayEvent.Post event) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		if (event.getType() != RenderGameOverlayEvent.ElementType.HOTBAR) {
 			return;
 		}
@@ -239,7 +240,7 @@ public class Auto32kModule {
 	 * mt.start(); }
 	 */
 	public boolean isDouble(String s) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		try {
 			Double.parseDouble(s);
 			return true;
@@ -253,7 +254,7 @@ public class Auto32kModule {
 	}
 
 	public boolean HasDigit(String content) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		boolean flag = false;
 		Pattern p = Pattern.compile(".*\\d+.*");
 		Matcher m = p.matcher(content);
@@ -268,7 +269,7 @@ public class Auto32kModule {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onChatSent(ClientChatEvent event) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		if (event.getMessage().startsWith("@tp")) {
 			event.setCanceled(true);
 			try {
@@ -350,14 +351,14 @@ public class Auto32kModule {
 	}
 
 	public void drawText(String text) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		mc.ingameGUI.addChatMessage(ChatType.CHAT, new TextComponentString(text));
 		}
 	}
 	
 	@SubscribeEvent
 	public void onUpdate(LivingUpdateEvent event) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		try {
 				if (mc.currentScreen instanceof GuiHopper) {
 					if (shouldthrow(mc.player.getHeldItemMainhand()) && mc.currentScreen instanceof GuiHopper) {
@@ -373,7 +374,7 @@ public class Auto32kModule {
 	
 	@SubscribeEvent
 	public void onKey(InputUpdateEvent event) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		if(GUIManager.allowguimove){
 		if(mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) && HL32K.mc.world != null && HL32K.mc.player != null) {
 			 if (Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode())) {
@@ -421,7 +422,7 @@ public class Auto32kModule {
 	
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		if (HL32K.auto32kCpsIncrementKeybind.isPressed()) {
 			HL32K.cps++;
 			HL32K.saveInformation();
@@ -589,82 +590,61 @@ public class Auto32kModule {
 			}
 	
 			if (HL32K.isKillauraOptionEnabled && shouldKillaura) {
-	
-				
-				EntityPlayer target = null;
-				try {
-					List<EntityPlayer> players = new ArrayList<EntityPlayer>(mc.world.playerEntities);
-					Iterator<EntityPlayer> var3 = (new ArrayList<EntityPlayer>(players)).iterator();
-					while (var3.hasNext()) {
-						EntityPlayer var4 = (EntityPlayer) var3.next();
-						if (HL32K.friends.contains(var4.getName().toLowerCase())) {
-							players.remove(var4);
+				try{
+				if (!HL32K.auramode) {
+					for (int i = 0; i <= HL32K.cpt; ++i) {
+						for (Entity target : mc.world.playerEntities) {
+							if (target.isDead)
+								continue;
+							if (target == mc.player)
+								continue;
+							if (mc.player.getDistance(target) > HL32K.reach)
+								continue;
+							if (((EntityLivingBase) target).getHealth() <= 0)
+								continue;
+							attack(target);
+							if (!multi) return;
 						}
 					}
-					players.remove(mc.player);
-					for(int k = 0 ; k < players.size() ; k++){
-					if(players.get(k).isDead ||  players.get(k).getHealth() <= 0){
-						players.remove(k);//our targer are alive players,by xX_NobleSix_Xx
-					}
-					players.sort(Comparator.comparingDouble(a -> a.getDistance(mc.player)));
-					if (((EntityPlayer) players.get(0)).getDistance(mc.player) <= HL32K.reach && !HL32K.madmode) {
-						target = (EntityPlayer) players.get(0);
-					}
-					else if (HL32K.madmode) {
-						target = (EntityPlayer) players.get(0);
-					} 
 				}
-				} catch (Exception var13) {
-				}
-				
-				if (target != null && !HL32K.auramode) {
-					if (!HL32K.madmode) {
-						double diffX = target.posX - mc.player.posX;
-						double diffY = target.posY + 1.0D - (mc.player.posY + (double) mc.player.getEyeHeight());
-						double diffZ = target.posZ - mc.player.posZ;
-						double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
-						float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0F;
-						float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, diffXZ)));
-						EntityPlayerSP var10000 = mc.player;
-						var10000.rotationYaw += MathHelper.wrapDegrees(yaw - mc.player.rotationYaw);
-						var10000 = mc.player;
-						var10000.rotationPitch += MathHelper.wrapDegrees(pitch - mc.player.rotationPitch);
-					}
-					for (int i = 0; i <= HL32K.cpt; ++i) {
-						mc.playerController.attackEntity(mc.player, target);
-						mc.player.swingArm(EnumHand.MAIN_HAND);
-					}
-				} else if (target != null && HL32K.auramode) {
+				else if (HL32K.auramode){
 					this.newTick++;
-					if (!HL32K.madmode) {
-						double diffX = target.posX - mc.player.posX;
-						double diffY = target.posY + 1.0D - (mc.player.posY + (double) mc.player.getEyeHeight());
-						double diffZ = target.posZ - mc.player.posZ;
-						double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
-						float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0F;
-						float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, diffXZ)));
-						EntityPlayerSP var10000 = mc.player;
-						var10000.rotationYaw += MathHelper.wrapDegrees(yaw - mc.player.rotationYaw);
-						var10000 = mc.player;
-						var10000.rotationPitch += MathHelper.wrapDegrees(pitch - mc.player.rotationPitch);
-					}
 					if (this.newTick >= (20 / (HL32K.cps))) {
-						mc.playerController.attackEntity(mc.player, target);
-						mc.player.swingArm(EnumHand.MAIN_HAND);
+						for (int i = 0; i <= HL32K.cpt; ++i) {
+							for (Entity target2 : mc.world.playerEntities) {
+								if (target2.isDead)
+									continue;
+								if (target2 == mc.player)
+									continue;
+								if (mc.player.getDistance(target2) > HL32K.reach)
+									continue;
+								if (((EntityLivingBase) target2).getHealth() <= 0)
+									continue;
+								attack(target2);
+								if (!multi) return;
+							}
+						}
 						this.newTick = 0;
 					}
+				}
+				}catch (Exception var13) {
 				}
 			}
 		}
 
-			
+		}
 	}
-	}
-
+	
 
 	
+	
+	private void attack(Entity e) {
+        mc.playerController.attackEntity(mc.player, e);
+        mc.player.swingArm(EnumHand.MAIN_HAND);
+    }
+	
 	public boolean placeBlock(BlockPos pos, int slot) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 	      if (!this.emptyBlocks.contains(mc.world.getBlockState(pos).getBlock())) {
 	         return false;
 	      } else {
@@ -695,7 +675,7 @@ public class Auto32kModule {
 	}
 
 	public void openBlock(BlockPos pos) {
-		   if(HL32K.a32kcore == 0){
+		   if(HL32K.a32kcore == 3){
 	      EnumFacing[] var2 = EnumFacing.values();
 	      int var3 = var2.length;
 
@@ -712,7 +692,7 @@ public class Auto32kModule {
 	}
 	
 	public boolean shouldthrow(ItemStack item) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		if (item == null)
 			return false;
 		if (item.getTagCompound() == null)
@@ -738,7 +718,7 @@ public class Auto32kModule {
 	}
 
 	public void placeStuff(int hopperIndex, int shulkerIndex, BlockPos blockPos, EnumFacing enumFacing, Vec3d vec3d) {
-		if(HL32K.a32kcore == 0){
+		if(HL32K.a32kcore == 3){
 		mc.player.connection
 				.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
 

@@ -8,11 +8,13 @@ public class PlaceMode extends Settings {
         super("PlaceMode");
     }
 	public void onToggle(boolean state){
-	if (state)
-	HL32K.lookingplace = !HL32K.lookingplace;
-HL32K.saveInformation();
-	if (!state)
-	HL32K.lookingplace = !HL32K.lookingplace;
-HL32K.saveInformation();
+	if (state){
+		HL32K.lookingplace = !HL32K.lookingplace;
+		HL32K.saveInformation();
+	}
+	if (!state){
+		HL32K.lookingplace = !HL32K.lookingplace;
+		HL32K.saveInformation();
+	}
 	}
 }

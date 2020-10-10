@@ -18,10 +18,19 @@ public class SettingsManager {
 		moduleList.add(new LastColor());
 		moduleList.add(new NextColor());
 		moduleList.add(new MadMode());
-		moduleList.add(new A32KMode());
+		moduleList.add(new Delayp());
+		moduleList.add(new Delayd());
 		moduleList.add(new AuraMode());
 		moduleList.add(new PlaceMode());
 		moduleList.add(new ToggleChat());
+		moduleList.add(new Slota());
+		moduleList.add(new Slotb());
+		moduleList.add(new Slotc());
+		moduleList.add(new Slotd());
+		moduleList.add(new Slote());
+		moduleList.add(new Slotf());
+		moduleList.add(new def());
+		moduleList.add(new newver());
     }
 
     public ArrayList<Settings> getEnabledModules() {
