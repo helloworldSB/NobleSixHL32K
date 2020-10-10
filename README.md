@@ -2,7 +2,8 @@
 This is a useless auto 32k mod beacuse you cant use 32ks in 2b2t,just for fun.
 
 ## Building
-We recommend using [IntelliJ](https://www.jetbrains.com/idea/download/). Eclipse will require additional steps to set up, which we won't cover here.
+We recommend using [IntelliJ](https://www.jetbrains.com/idea/download/).I code this mod with Notepad++
+so there we need optimizations.
 
 - Import build.gradle
 - Run `gradlew setupDecompWorkspace`
@@ -12,5 +13,5 @@ We recommend using [IntelliJ](https://www.jetbrains.com/idea/download/). Eclipse
 
 If it fails at any point, try giving gradle more RAM via `-Xmx3G`
 
-## Contributing
-This project is not meant to be contributed upon. It's meant to act as a base for anyone who'd like to make their own client. The only contributions that will be accepted are bug fixes or updates for different minecraft versions.
+## Credits
+Thank you Frontear for the mod base,THETRUEWWEFAN for the basic 32k module,bot-debug for the original badauto32k.
